@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.body-color {
+  background-color: #FFF0CE;
+}
+
+.nav-footer {
+  background-color: #0C356A;
+}
+
+.card-color {
+  background-color: #0174BE;
+}
+
+.btn-color {
+  background-color: #FFC436;
+}
