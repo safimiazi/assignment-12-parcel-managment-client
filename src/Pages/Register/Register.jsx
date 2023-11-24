@@ -1,16 +1,33 @@
-import Lottie from "lottie-react";
-import loginAnimation from "../../assets/login.json"
-import { Link } from "react-router-dom";
-const Login = () => {
+import Lottie from 'lottie-react';
+import React from 'react';
+import registerAnimation from '../../assets/registerAnimation.json'
+const Register = () => {
     return (
         <div>
             <div className="hero min-h-screen">
                 <div className="hero-content flex-col lg:flex-row-reverse">
                     <div className="text-center lg:text-left">
-                        <Lottie animationData={loginAnimation}></Lottie>
+                        <Lottie animationData={registerAnimation}></Lottie>
                     </div>
                     <div className="card shrink-0 w-full max-w-sm ">
                         <form className="card-body">
+                            <div className="form-control">
+                                <label className="label">
+                                    <span className="label-text">Name</span>
+                                </label>
+                                <input type="text" placeholder="Name" className="input input-bordered" required />
+                            </div>
+                            <div className="form-control">
+                                <label className="label">
+                                    <span className="label-text">user type</span>
+                                </label>
+                                <select className="select w-full max-w-xs">
+                                    <option disabled selected>select type of user</option>
+                                    <option>User</option>
+                                    <option>DeliveryMen</option>
+                                    <option>admin</option>
+                                </select>
+                            </div>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Email</span>
@@ -27,12 +44,9 @@ const Login = () => {
                                 </label>
                             </div>
                             <div className="form-control mt-6">
-                                <button className="btn btn-color">Login</button>
+                                <button className="btn btn-color">Register</button>
                             </div>
                         </form>
-                        <div className="pl-10">
-                            <p>new user? please <Link className="text-indigo-700" to="/register">register</Link></p>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -40,4 +54,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default Register;
