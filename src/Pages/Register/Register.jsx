@@ -1,7 +1,32 @@
 import Lottie from 'lottie-react';
-import React from 'react';
+import React, { useState } from 'react';
 import registerAnimation from '../../assets/registerAnimation.json'
+import useAuth from '../../Hooks/useAuth';
 const Register = () => {
+    const [selectedValue, setSelectedValue] = useState('')
+    const {createUser} = useAuth()
+
+    const handleSelectedChange = (e) =>{
+        setSelectedValue(e.target.value);
+    }
+
+    const handleCreateUser = e => {
+        e.preventDefault()
+        const form = e.target;
+        const name = form.name.value;
+        const email = form.email.value;
+        const password = form.password.value;
+        console.log(name,email, password, selectedValue);
+
+        createUser(email, password)
+        .then(res => {
+        console.log(res.user);
+        form.reset()
+        })
+        .catch( error => {
+            console.log(error.message);
+        })
+    }
     return (
         <div>
             <div className="hero min-h-screen">
@@ -10,41 +35,40 @@ const Register = () => {
                         <Lottie animationData={registerAnimation}></Lottie>
                     </div>
                     <div className="card shrink-0 w-full max-w-sm ">
-                        <form className="card-body">
+                        <form onSubmit={handleCreateUser} className="card-body">
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Name</span>
                                 </label>
-                                <input type="text" placeholder="Name" className="input input-bordered" required />
+                                <input name='name' type="text" placeholder="Name" className="input input-bordered" required />
                             </div>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">user type</span>
                                 </label>
-                                <select className="select w-full max-w-xs">
+                                <select onChange={handleSelectedChange} className="select w-full max-w-xs">
                                     <option disabled selected>select type of user</option>
-                                    <option>User</option>
-                                    <option>DeliveryMen</option>
-                                    <option>admin</option>
+                                    <option value="user">Normal User</option>
+                                    <option value="deliveryMan">Delivery Men</option>
                                 </select>
                             </div>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Email</span>
                                 </label>
-                                <input type="email" placeholder="email" className="input input-bordered" required />
+                                <input name='email' type="email" placeholder="email" className="input input-bordered" required />
                             </div>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Password</span>
                                 </label>
-                                <input type="password" placeholder="password" className="input input-bordered" required />
+                                <input name='password' type="password" placeholder="password" className="input input-bordered" required />
                                 <label className="label">
                                     <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
                                 </label>
                             </div>
                             <div className="form-control mt-6">
-                                <button className="btn btn-color">Register</button>
+                                <button  className="btn btn-color">Register</button>
                             </div>
                         </form>
                     </div>
