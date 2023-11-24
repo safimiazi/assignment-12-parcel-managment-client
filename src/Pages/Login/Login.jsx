@@ -1,10 +1,27 @@
 import Lottie from "lottie-react";
 import loginAnimation from "../../assets/login.json"
 import { Link } from "react-router-dom";
+import useAuth from "../../Hooks/useAuth";
+import { useState } from "react";
+import { toast } from "react-toastify";
 const Login = () => {
-
+    const {signInUser} = useAuth()
+const [errorMessage, setError] = useState('')
     const handleLogin = (e) => {
-        
+        e.preventDefault()
+        const form = e.target;
+        const email = form.email.value;
+        const password = form.password.value;
+        signInUser(email, password)
+        .then(result => {
+            console.log(result.user);
+            toast.success('login successfully')
+        })
+        .catch(error => {
+            console.log(error.message);
+            setError(error.message)
+            toast.error(`${errorMessage}`)
+        })
     }
     return (
         <div>

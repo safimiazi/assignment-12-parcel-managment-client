@@ -1,13 +1,35 @@
 import { NavLink } from "react-router-dom";
 import { BsFillBellFill } from "react-icons/bs";
+import useAuth from "../../Hooks/useAuth";
+import { toast } from "react-toastify";
+import { useState } from "react";
 
 const Navbar = () => {
+    const {user, logOut} = useAuth()
+const [errorMessage, setError] = useState('')
+console.log(user, "hiiiii");
+const handleLogout = () => {
+logOut()
+.then(result => {
+    // console.log(result.user);
+    toast.success("Logout successfully")
+})
+.catch(error => {
+    // console.log(error.message);
+    // setError(error.message)
+    // toast.error(`${errorMessage}`)
+})
+}
+
     const navList = <>
         <NavLink className={({ isActive, isPending }) => isPending ? "" : isActive ? "text-white border-y-2 " : ''} to='/'><li className="flex items-center">Home</li></NavLink>
         <NavLink className={({ isActive, isPending }) => isPending ? "" : isActive ? "text-white border-y-2 " : ''} to='/dashboard'><li className="flex items-center">Dashboard</li></NavLink>
         <NavLink className={({ isActive, isPending }) => isPending ? "" : isActive ? "mt-1" : ''} to='/dashboard'><BsFillBellFill className="text-xl"></BsFillBellFill></NavLink>
-        <NavLink className={({ isActive, isPending }) => isPending ? "" : isActive ? "text-white border-y-2 " : ''} to='/login'><li className="flex items-center">Login</li></NavLink>
+{
+    user?.email ? <NavLink onClick={handleLogout} className={({ isActive, isPending }) => isPending ? "" : isActive ? "text-white border-y-2 " : ''} to=''><li className="flex items-center">Logout</li></NavLink>
+         : <NavLink className={({ isActive, isPending }) => isPending ? "" : isActive ? "text-white border-y-2 " : ''} to='/login'><li className="flex items-center">Login</li></NavLink>
 
+}
         
     </>
     return (
