@@ -17,3 +17,11 @@
 .btn-color {
   background-color: #FFC436;
 }
+
+.custom-min-height {
+  min-height: calc(100vh - 288px);
+}
+
+.text-color {
+  color: #0C356A;
+}
