@@ -26,7 +26,7 @@ logOut()
         <NavLink className={({ isActive, isPending }) => isPending ? "" : isActive ? "text-white border-y-2 " : ''} to='/dashboard'><li className="flex items-center">Dashboard</li></NavLink>
         <NavLink className={({ isActive, isPending }) => isPending ? "" : isActive ? "mt-1" : ''} to='/dashboard'><BsFillBellFill className="text-xl"></BsFillBellFill></NavLink>
 {
-    user?.email ? <NavLink onClick={handleLogout} className={({ isActive, isPending }) => isPending ? "" : isActive ? "text-white border-y-2 " : ''} to=''><li className="flex items-center">Logout</li></NavLink>
+    user ? <NavLink onClick={handleLogout} className={({ isActive, isPending }) => isPending ? "" : isActive ? "" : '' } to="/" ><li className="flex items-center">Logout</li></NavLink>
          : <NavLink className={({ isActive, isPending }) => isPending ? "" : isActive ? "text-white border-y-2 " : ''} to='/login'><li className="flex items-center">Login</li></NavLink>
 
 }
@@ -52,23 +52,27 @@ logOut()
                     </ul>
                 </div>
                 <div className="navbar-end">
-                    <div className="dropdown dropdown-end">
-                        <label tabIndex={0} className="btn btn-ghost  btn-circle avatar">
+                <div>
+                    <p>{user?.displayName}</p>
+                </div>
+                {
+                    user ? <div className="dropdown dropdown-end ">
+                        <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                             <div className="w-10 rounded-full">
-                                <img alt="Tailwind CSS Navbar component" src="/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                                {user.photoURL ? (
+                                    <img src={user.photoURL} alt="User Profile" />
+                                ) : (
+                                    <img src="https://i.ibb.co/tBCst7k/user-sign-in-profile-avatar-user-icon-in-flat-style-user-icon-for-the-website-team-logo-vector.jpg" alt="Default Profile" />
+                                )}
                             </div>
                         </label>
-                        <ul tabIndex={0} className="mt-3 z-[1] card-color p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
-                            <li>
-                                <a className="justify-between">
-                                    Profile
-                                    <span className="badge">New</span>
-                                </a>
-                            </li>
-                            <li><a>Settings</a></li>
-                            <li><a>Logout</a></li>
+                        <ul tabIndex={0} className="card-color mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
+                        <li><NavLink to="" className={({ isActive, isPending }) => isPending ? "pending" : isActive ? "active" : ""}>{user?.displayName}</NavLink></li>
+                        {/* <li><NavLink to="" className={({ isActive, isPending }) => isPending ? "pending" : isActive ? "active" : ""}>dashboard</NavLink></li> */}
+                        {/* <li><NavLink onClick={handleLogout} to="/" className={({ isActive, isPending }) => isPending ? "pending" : isActive ? "active" : ""}>Logout</NavLink></li> */}
                         </ul>
-                    </div>
+                    </div> : " "
+                }
                 </div>
             </div>
         </div>

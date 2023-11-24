@@ -6,10 +6,10 @@ import { toast } from 'react-toastify';
 import SocialLogin from '../../Components/SocialLogin/SocialLogin';
 const Register = () => {
     const [selectedValue, setSelectedValue] = useState('')
-    const {createUser} = useAuth()
-    const [errorMessage,setError] = useState('')
+    const { createUser, userUpdate } = useAuth()
+    const [errorMessage, setError] = useState('')
 
-    const handleSelectedChange = (e) =>{
+    const handleSelectedChange = (e) => {
         setSelectedValue(e.target.value);
     }
 
@@ -21,28 +21,37 @@ const Register = () => {
         const email = form.email.value;
         const password = form.password.value;
 
-        console.log(name,email, password, selectedValue);
+        console.log(name, email, password, selectedValue);
 
-// const specialChar = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/
-// if(password.length < 6){
-//     toast.error("password must be 6 characters long")
-// }else if(!/[A-Z]/.test(password)) {
-//     toast.error("password must contain 1 capital letter")
-// }else if(!specialChar.test(password)){
-//     toast.error("password must contain 1 special character")
-// }
+        // const specialChar = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/
+        // if(password.length < 6){
+        //     toast.error("password must be 6 characters long")
+        // }else if(!/[A-Z]/.test(password)) {
+        //     toast.error("password must contain 1 capital letter")
+        // }else if(!specialChar.test(password)){
+        //     toast.error("password must contain 1 special character")
+        // }
 
         createUser(email, password)
-        .then(res => {
-        console.log(res.user);
-        toast.success("successfully registered")
-        form.reset()
-        })
-        .catch( error => {
-            console.log(error.message);
-            setError(error.message)
-            toast.error(`${errorMessage}`)
-        })
+            .then(res => {
+                console.log(res.user);
+                toast.success("successfully registered")
+                
+                userUpdate(name, photo)
+                    .then(result => {
+                        console.log(result.user);
+                        
+                    })
+                    .catch(error => {
+                        console.log(error.message);
+                    })
+                    form.reset()
+            })
+            .catch(error => {
+                console.log(error.message);
+                setError(error.message)
+                toast.error(`${errorMessage}`)
+            })
     }
     return (
         <div>
@@ -91,11 +100,11 @@ const Register = () => {
                                 </label>
                             </div>
                             <div className="form-control mt-6">
-                                <button  className="btn btn-color">Register</button>
+                                <button className="btn btn-color">Register</button>
                             </div>
                         </form>
                         <div className='md:pl-14 pl-2'>
-                        <SocialLogin></SocialLogin>
+                            <SocialLogin></SocialLogin>
                         </div>
                     </div>
                 </div>
