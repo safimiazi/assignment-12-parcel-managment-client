@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const MyParcel = () => {
     const axiosPublic = useAxiosPublic()
@@ -20,7 +21,36 @@ const MyParcel = () => {
 
 //work for delete
 const handleDelete = (id) => {
-    
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+            axiosPublic.delete(`/delete-parcel/${id}`)
+            .then(res => {
+                console.log(res.data);
+            })
+            .catch(error => {
+                console.log(error.message);
+            })
+
+
+
+
+
+
+        //   Swal.fire({
+        //     title: "Deleted!",
+        //     text: "Your file has been deleted.",
+        //     icon: "success"
+        //   });
+        }
+      });
 }
 
 
