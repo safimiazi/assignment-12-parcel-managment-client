@@ -16,6 +16,15 @@ const MyParcel = () => {
                 console.log(error?.message);
             })
     }, [])
+
+
+//work for delete
+const handleDelete = (id) => {
+    
+}
+
+
+
     return (
         <div className="container p-2 mx-auto sm:p-4 dark:text-gray-100">
             <h2 className="mb-4 text-2xl font-semibold leadi">Invoices</h2>
@@ -63,17 +72,17 @@ const MyParcel = () => {
                                 <td className="p-3 ">
                                     <span className=" py-1 font-semibold rounded-md dark:bg-violet-400 dark:text-gray-900">
                                         <span className="font-bold text-violet-800">
-{
-    singleData.status == "pending" ? <Link to={`/dashboard/update/${singleData._id}`}><button className="bg-violet-400 py-1 px-3">Update</button></Link>
-                                    :<Link to={`/dashboard/update/${singleData._id}`}><button disabled className="bg-slate-200 py-1 px-3">Update</button></Link>
+                                            {
+                                                singleData.status == "pending" ? <Link to={`/dashboard/update/${singleData._id}`}><button className="bg-violet-400 py-1 px-3">Update</button></Link>
+                                                    : <Link to={`/dashboard/update/${singleData._id}`}><button disabled className="bg-slate-200 py-1 px-3">Update</button></Link>
 
-}
+                                            }
                                         </span>
                                     </span>
                                 </td>
                                 <td className="p-3 ">
                                     <span className=" py-1 font-semibold rounded-md dark:bg-violet-400 dark:text-gray-900">
-                                        <span className="font-bold text-red-700"><button className="bg-red-300 px-3 py-1">Cancel</button></span>
+                                        <span className="font-bold text-red-700"><button onClick={()=> handleDelete(singleData._id)} className="bg-red-300 px-3 py-1">Cancel</button></span>
                                     </span>
                                 </td>
                             </tr>)
