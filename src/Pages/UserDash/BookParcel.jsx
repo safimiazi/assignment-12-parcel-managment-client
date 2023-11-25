@@ -59,7 +59,7 @@ const BookParcel = () => {
             receiverName: receiverName,
             receiverMobileNumber: receiverNo,
             parcelWeight: parcelWeight,
-            price: price,
+            price: parseInt(price),
             status: "pending"
         }
         
@@ -68,7 +68,7 @@ const BookParcel = () => {
         console.log(res.data);
         if(res.data.insertedId){
             toast.success("successfully booking")
-            form.reset()
+            // form.reset()
         }
      })
      .catch(error => {

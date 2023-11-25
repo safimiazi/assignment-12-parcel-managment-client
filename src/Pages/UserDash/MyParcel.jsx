@@ -10,10 +10,10 @@ const MyParcel = () => {
         axiosPublic.get('/my-parcel')
             .then(res => {
                 console.log(res.data);
-                setData(res.data);
+                setData(res?.data);
             })
             .then(error => {
-                console.log(error.message);
+                console.log(error?.message);
             })
     }, [])
     return (
@@ -41,7 +41,7 @@ const MyParcel = () => {
                                     <p>{index + 1}</p>
                                 </td>
                                 <td className="p-3">
-                                    <p>{singleData.name}</p>
+                                    <p>{singleData.parcelType}</p>
                                 </td>
                                 <td className="p-3">
                                     <p>{singleData.deliveryDate}</p>
@@ -63,7 +63,11 @@ const MyParcel = () => {
                                 <td className="p-3 ">
                                     <span className=" py-1 font-semibold rounded-md dark:bg-violet-400 dark:text-gray-900">
                                         <span className="font-bold text-violet-800">
-                                            <Link to={`/dashboard/update/${singleData._id}`}><button className="bg-violet-400 py-1-3">Update</button></Link>
+{
+    singleData.status == "pending" ? <Link to={`/dashboard/update/${singleData._id}`}><button className="bg-violet-400 py-1 px-3">Update</button></Link>
+                                    :<Link to={`/dashboard/update/${singleData._id}`}><button disabled className="bg-slate-200 py-1 px-3">Update</button></Link>
+
+}
                                         </span>
                                     </span>
                                 </td>
