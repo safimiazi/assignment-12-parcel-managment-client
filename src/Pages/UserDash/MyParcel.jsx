@@ -3,8 +3,11 @@ import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useQuery } from "@tanstack/react-query";
+import useAuth from "../../Hooks/useAuth";
 
 const MyParcel = () => {
+    const {user} = useAuth()
+    console.log(user);
     const axiosPublic = useAxiosPublic()
     const [data, setData] = useState([])
     const [selectedStatus, setSelectedStatus] = useState('')
@@ -13,7 +16,7 @@ const MyParcel = () => {
     const { isPending, refetch, error, parcel } = useQuery({
         queryKey: ['parcel'],
         queryFn: () => {
-            axiosPublic.get('/my-parcel')
+            axiosPublic.get(`/my-parcel/${user?.email}`)
                 .then(res => {
                     // console.log(res.data);
                     setData(res.data)
@@ -70,10 +73,18 @@ const MyParcel = () => {
 
 
     const handleStatusChange = e => {
-        setSelectedStatus(e.target.value);
-        // const filteredData = data.filter(item => item.status === selectedStatus)
-        // setData(filteredData)
+        const status = e.target.value;
+        axiosPublic.get(`/get-filter-data?email=${user?.email}&status=${status}`)
+        .then(res => {
+            setData(res.data);
+            
+        })
+        .then(error => {
+            console.log(error?.message);
+        })
+        
     }
+  
 
     return (
         <div className="container p-2 mx-auto sm:p-4 dark:text-gray-100">
@@ -125,13 +136,13 @@ const MyParcel = () => {
                                     <p>{singleData.deliveryDate}</p>
                                 </td>
                                 <td className="p-3">
-                                    <p>01 Feb 2022</p>
+                                    <p>{singleData.approxDeliveryDate}</p>
                                 </td>
                                 <td className="p-3 ">
                                     <p>{singleData.bookingDate}</p>
                                 </td>
                                 <td className="p-3 ">
-                                    <p>idfgpg5332115,792</p>
+                                    <p>{singleData?.deliveryManId}</p>
                                 </td>
                                 <td className="p-3 ">
                                     <span className=" py-1 font-semibold rounded-md dark:bg-violet-400 dark:text-gray-900">

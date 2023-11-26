@@ -45,7 +45,15 @@ const BookParcel = () => {
         const parcelWeight = form.weight.value;
         const bookingDate = formattedDate
         // console.log(name, email, phone, parcelType, parcelDeliveryAddress, deliveryDate, price, deliveryAddressLatitude, longitude, receiverName, receiverNo, parcelWeight);
-         
+        const addPhoneNo = {phone:phone}
+axiosPublic.patch(`/add-phone-no/${user.email}`, addPhoneNo)
+.then(res => {
+    console.log(res.data);
+})
+.then(error => {
+    console.log(error.message);
+})
+
         const parcelBookingData = {
             name: name,
             email: email,
@@ -105,7 +113,7 @@ const BookParcel = () => {
                                             {/* User Email  */}
                                             <div className="md:col-span-5">
                                                 <label>Email Address</label>
-                                                <input type="text" name="email" className="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value={user?.email} placeholder="email@domain.com" />
+                                                <input type="text" readOnly name="email" className="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value={user?.email} placeholder="email@domain.com" />
                                             </div>
                                             {/* User Phone Number */}
                                             <div className="md:col-span-3">

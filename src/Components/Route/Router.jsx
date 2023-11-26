@@ -12,6 +12,8 @@ import AdminStatistics from "../../Pages/AdminDash/AdminStatistics";
 import AllDeliveryMen from "../../Pages/AdminDash/AllDeliveryMen";
 import AllParcels from "../../Pages/AdminDash/AllParcels";
 import AllUsers from "../../Pages/AdminDash/AllUsers";
+import MyDeliveryList from "../../Pages/DeliveryManDash/MyDeliveryList";
+import MyReviews from "../../Pages/DeliveryManDash/MyReviews";
 const router = createBrowserRouter([
     {
       path: "/",
@@ -69,6 +71,15 @@ const router = createBrowserRouter([
           path: '/dashboard/all-users',
           element: <AllUsers></AllUsers>
         },
+        //Delivery man dashboard
+        {
+          path: "/dashboard/my-delivery-list",
+          element: <MyDeliveryList></MyDeliveryList>
+        },
+        {
+          path: "/dashboard/my-reviews",
+          element: <MyReviews></MyReviews>
+        }
       ]
     }
   ]);

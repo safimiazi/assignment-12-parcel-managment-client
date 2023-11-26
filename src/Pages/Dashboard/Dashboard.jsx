@@ -19,6 +19,11 @@ const Dashboard = () => {
                     <li><NavLink to="/dashboard/all-delivery-men"><FaDollyFlatbed></FaDollyFlatbed> All Delivery Men</NavLink></li>
                     <li><NavLink to="/dashboard/all-parcels"><FaUserEdit></FaUserEdit> All Parcels</NavLink></li>
                     <li><NavLink to="/dashboard/all-users"><FaUserEdit></FaUserEdit> All Users</NavLink></li>
+                    
+                    {/* delivery routes */}
+                    <hr></hr>
+                    <li><NavLink to="/dashboard/my-delivery-list"><FaUserEdit></FaUserEdit> My Delivery List</NavLink></li>
+                    <li><NavLink to="/dashboard/my-reviews"><FaUserEdit></FaUserEdit> My Reviews</NavLink></li>
                 </ul>
             </div>
             <div className='flex-1 body-color'>
