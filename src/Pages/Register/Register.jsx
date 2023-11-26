@@ -4,24 +4,61 @@ import registerAnimation from '../../assets/registerAnimation.json'
 import useAuth from '../../Hooks/useAuth';
 import { toast } from 'react-toastify';
 import SocialLogin from '../../Components/SocialLogin/SocialLogin';
+import useAxiosPublic from '../../Hooks/useAxiosPublic';
+
+const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`
 const Register = () => {
+    const axiosPublic = useAxiosPublic()
     const [selectedValue, setSelectedValue] = useState('')
     const { createUser, userUpdate } = useAuth()
     const [errorMessage, setError] = useState('')
+    const [selectedFile, setSelectedFile] = useState(null);
+
+
+const handleFileChange = (e) => {
+    setSelectedFile(e.target.files[0])
+}
 
     const handleSelectedChange = (e) => {
         setSelectedValue(e.target.value);
     }
 
-    const handleCreateUser = e => {
+    const handleCreateUser = async(e) => {
         e.preventDefault()
         const form = e.target;
         const name = form.name.value;
-        const photo = form.photo.value;
         const email = form.email.value;
         const password = form.password.value;
 
         console.log(name, email, password, selectedValue);
+
+
+
+
+
+        try {
+         
+            const formData = new FormData();
+            formData.append('image', selectedFile);
+      
+            const response = await fetch(`${image_hosting_api}`, {
+              method: 'POST',
+              body: formData,
+            });
+      
+            if (response.ok) {
+              const result = await response.json();
+              console.log('Image uploaded successfully:', result.data);
+             
+                const  photoFile = result.data.display_url
+             
+              if(result.data){
+                 
+                 
+
+
+
 
         // const specialChar = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/
         // if(password.length < 6){
@@ -32,26 +69,64 @@ const Register = () => {
         //     toast.error("password must contain 1 special character")
         // }
 
+        const userInfo = {
+            name: name,
+            email: email,
+            photo: photoFile,
+            role: selectedValue,
+            userId : Math.floor(10000000 + Math.random() * 90000000)
+
+        }
+console.log(userInfo);
         createUser(email, password)
             .then(res => {
                 console.log(res.user);
                 toast.success("successfully registered")
                 
-                userUpdate(name, photo)
-                    .then(result => {
-                        console.log(result.user);
-                        
-                    })
-                    .catch(error => {
-                        console.log(error.message);
-                    })
-                    form.reset()
+                axiosPublic.post('/create-user',userInfo)
+                .then(res => {
+                    console.log(res.data);
+                    if(res.data.insertedId){
+                    
+                        userUpdate(name, photoFile)
+                        .then(result => {
+                            console.log(result?.user);
+                            toast.success("successfully registered")
+                            
+                        })
+                        .catch(error => {
+                            console.log(error.message);
+                        })
+                        form.reset()
+                    }
+                })
+                .catch(error => {
+                    console.log(error.message);
+                })
+
+
             })
             .catch(error => {
                 console.log(error.message);
                 setError(error.message)
                 toast.error(`${errorMessage}`)
             })
+
+
+                
+
+              }   
+            } else {
+              console.error('Failed to upload image:', response.statusText);
+            }
+          } catch (error) {
+            console.error('Error during image upload:', error.message);
+          }
+
+
+
+
+
     }
     return (
         <div>
@@ -72,7 +147,8 @@ const Register = () => {
                                 <label className="label">
                                     <span className="label-text">Photo url</span>
                                 </label>
-                                <input name='photo' type="text" placeholder="photo" className="input input-bordered" required />
+                                <input type="file" required onChange={handleFileChange} className="file-input file-input-bordered w-full max-w-xs" />
+                                {/* <input name='photo' type="text" placeholder="photo" className="input input-bordered" required /> */}
                             </div>
                             <div className="form-control">
                                 <label className="label">

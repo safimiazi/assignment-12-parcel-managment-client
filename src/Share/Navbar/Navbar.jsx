@@ -32,6 +32,8 @@ logOut()
 }
         
     </>
+
+    
     return (
         <div>
             <div className="navbar nav-footer text-white">
@@ -60,7 +62,7 @@ logOut()
                         <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                             <div className="w-10 rounded-full">
                                 {user.photoURL ? (
-                                    <img src={user.photoURL} alt="User Profile" />
+                                    <img src={user?.photoURL} alt="User Profile" />
                                 ) : (
                                     <img src="https://i.ibb.co/tBCst7k/user-sign-in-profile-avatar-user-icon-in-flat-style-user-icon-for-the-website-team-logo-vector.jpg" alt="Default Profile" />
                                 )}

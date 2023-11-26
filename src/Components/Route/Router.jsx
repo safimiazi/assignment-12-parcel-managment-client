@@ -8,6 +8,10 @@ import BookParcel from "../../Pages/UserDash/BookParcel";
 import MyParcel from "../../Pages/UserDash/MyParcel";
 import MyProfile from "../../Pages/UserDash/MyProfile";
 import UserUpdate from "../../Pages/UserDash/UserUpdate";
+import AdminStatistics from "../../Pages/AdminDash/AdminStatistics";
+import AllDeliveryMen from "../../Pages/AdminDash/AllDeliveryMen";
+import AllParcels from "../../Pages/AdminDash/AllParcels";
+import AllUsers from "../../Pages/AdminDash/AllUsers";
 const router = createBrowserRouter([
     {
       path: "/",
@@ -47,7 +51,24 @@ const router = createBrowserRouter([
         {
           path: '/dashboard/update/:id',
           element: <UserUpdate></UserUpdate>
-        }
+        },
+        //admin dashboard
+        {
+          path: '/dashboard/statistics',
+          element: <AdminStatistics></AdminStatistics>
+        },
+        {
+          path: '/dashboard/all-delivery-men',
+          element: <AllDeliveryMen></AllDeliveryMen>
+        },
+        {
+          path: '/dashboard/all-parcels',
+          element: <AllParcels></AllParcels>
+        },
+        {
+          path: '/dashboard/all-users',
+          element: <AllUsers></AllUsers>
+        },
       ]
     }
   ]);

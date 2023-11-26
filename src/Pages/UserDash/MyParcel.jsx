@@ -2,62 +2,99 @@ import { useEffect, useState } from "react";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import { useQuery } from "@tanstack/react-query";
 
 const MyParcel = () => {
     const axiosPublic = useAxiosPublic()
     const [data, setData] = useState([])
-
-    useEffect(() => {
-        axiosPublic.get('/my-parcel')
-            .then(res => {
-                console.log(res.data);
-                setData(res?.data);
-            })
-            .then(error => {
-                console.log(error?.message);
-            })
-    }, [])
+    const [selectedStatus, setSelectedStatus] = useState('')
 
 
-//work for delete
-const handleDelete = (id) => {
-    Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!"
-      }).then((result) => {
-        if (result.isConfirmed) {
-            axiosPublic.delete(`/delete-parcel/${id}`)
-            .then(res => {
-                console.log(res.data);
-            })
-            .catch(error => {
-                console.log(error.message);
-            })
+    const { isPending, refetch, error, parcel } = useQuery({
+        queryKey: ['parcel'],
+        queryFn: () => {
+            axiosPublic.get('/my-parcel')
+                .then(res => {
+                    // console.log(res.data);
+                    setData(res.data)
 
-
-
-
-
-
-        //   Swal.fire({
-        //     title: "Deleted!",
-        //     text: "Your file has been deleted.",
-        //     icon: "success"
-        //   });
+                    return (res?.data);
+                })
+                .then(error => {
+                    console.log(error?.message);
+                })
         }
-      });
-}
+    })
 
 
+
+
+
+    //work for delete
+    const handleDelete = (id) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You want to delete parcel",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axiosPublic.delete(`/delete-parcel/${id}`)
+                    .then(res => {
+                        console.log(res.data);
+                        if (res.data.deletedCount) {
+                            refetch()
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "Your Parcel has been deleted.",
+                                icon: "success"
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error.message);
+                    })
+
+            }
+        });
+    }
+
+
+    //filter with status
+
+
+
+
+
+    const handleStatusChange = e => {
+        setSelectedStatus(e.target.value);
+        // const filteredData = data.filter(item => item.status === selectedStatus)
+        // setData(filteredData)
+    }
 
     return (
         <div className="container p-2 mx-auto sm:p-4 dark:text-gray-100">
             <h2 className="mb-4 text-2xl font-semibold leadi">Invoices</h2>
+            <div className="form-control w-full max-w-xs mb-4">
+                <label className="label">
+                    <span className="label-text-alt">Select Status</span>
+                </label>
+                <select
+                    className="select select-bordered"
+                    onChange={handleStatusChange}
+                >
+                    <option disabled selected>select one one</option>
+                    <option value={"pending"}>pending</option>
+                    <option value={"on the way"}>on the way</option>
+                    <option value={"delivered"}>delivered</option>
+                    <option value={"returned"}>returned</option>
+                    <option value={"cancelled"}>cancelled</option>
+                </select>
+
+            </div>
             <div className="overflow-x-auto">
                 <table className="min-w-full text-xs bg-white">
                     <thead className="dark:bg-gray-700">
@@ -71,6 +108,8 @@ const handleDelete = (id) => {
                             <th className="p-3">Status</th>
                             <th className="p-3">Update</th>
                             <th className="p-3">Cancel</th>
+                            <th className="p-3">Review</th>
+                            <th className="p-3">Pay</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -112,7 +151,22 @@ const handleDelete = (id) => {
                                 </td>
                                 <td className="p-3 ">
                                     <span className=" py-1 font-semibold rounded-md dark:bg-violet-400 dark:text-gray-900">
-                                        <span className="font-bold text-red-700"><button onClick={()=> handleDelete(singleData._id)} className="bg-red-300 px-3 py-1">Cancel</button></span>
+                                        <span className="font-bold text-red-700">
+                                            {
+                                                singleData.status == "pending" ? <button onClick={() => handleDelete(singleData._id)} className="bg-red-400 px-3 py-1">Cancel</button>
+                                                    : <button disabled className="bg-red-100 px-3 py-1">Cancel</button>
+                                            }
+                                        </span>
+                                    </span>
+                                </td>
+                                <td className="p-3 ">
+                                    <span className=" py-1 font-semibold rounded-md dark:bg-violet-400 dark:text-gray-900">
+                                        <span className="text-green-500">Review</span>
+                                    </span>
+                                </td>
+                                <td className="p-3 ">
+                                    <span className=" py-1 font-semibold rounded-md dark:bg-violet-400 dark:text-gray-900">
+                                        <span className="text-green-500">Pay</span>
                                     </span>
                                 </td>
                             </tr>)
@@ -121,21 +175,7 @@ const handleDelete = (id) => {
                     </tbody>
                 </table>
             </div>
-            <div className="flex gap-2 my-4 justify-center">
-                {/* <button className="px-28 rounded-lg py-1 border hover:bg-slate-300">Review</button> */}
-                <button className="px-28 bg-green-600 rounded-lg py-1 border hover:bg-slate-300" onClick={() => document.getElementById('my_modal_3').showModal()}>Review</button>
-                <dialog id="my_modal_3" className="modal">
-                    <div className="modal-box">
-                        <form method="dialog">
-                            {/* if there is a button in form, it will close the modal */}
-                            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-                        </form>
-                        <p>This is Gonna be a Form</p>
-                    </div>
-                </dialog>
-                <button className="px-28 btn-color rounded-lg py-1 border hover:bg-slate-300">Pay Now</button>
-
-            </div>
+            
         </div>
     );
 };

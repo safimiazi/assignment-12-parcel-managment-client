@@ -62,6 +62,7 @@ const BookParcel = () => {
             price: parseInt(price),
             status: "pending"
         }
+        console.log("line 65", parcelBookingData);
         
         axiosPublic.post('/parcel-booking',parcelBookingData)
      .then(res => {
