@@ -3,13 +3,14 @@ import { FaMapLocationDot } from "react-icons/fa6";
 import { RiAdminFill, RiChatDeleteFill } from "react-icons/ri";
 import { MdCloudDone } from "react-icons/md";
 import { useQuery } from '@tanstack/react-query';
-import useAxiosPublic from '../../Hooks/useAxiosPublic';
+import useAxiosSecure from '../../Hooks/useAxiosSecure';
 const AllDeliveryMen = () => {
-    const axiosPublic = useAxiosPublic()
+
+    const axiosSecure = useAxiosSecure()
     const { isPending, error, data } = useQuery({
         queryKey: ['all-delivery-men'],
         queryFn: async () => {
-            const res = await axiosPublic.get('/all-delivery-men',)
+            const res = await axiosSecure.get('/all-delivery-men',)
             return res.data
         }
     })

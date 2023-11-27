@@ -3,11 +3,12 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import useAxiosPublic from '../../Hooks/useAxiosPublic';
 import { toast } from 'react-toastify';
+import useAuth from '../../Hooks/useAuth';
 
 const UserUpdate = () => {
     const axiosPublic = useAxiosPublic()
     const [totalPrice, setTotalPrice] = useState([])
-
+const {user} = useAuth()
     const {id} = useParams()
     const {isPending, error, data} = useQuery({
         queryKey: ['update'],
@@ -107,7 +108,7 @@ const UserUpdate = () => {
                                         <div className="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5">
                                             <div className="md:col-span-5">
                                                 <label>Full Name</label>
-                                                <input type="text" name="name" readOnly className="h-10 border mt-1 rounded px-4 w-full bg-gray-50" defaultValue={data?.name} />
+                                                <input type="text" name="name" readOnly className="h-10 border mt-1 rounded px-4 w-full bg-gray-50" defaultValue={data?.name ? data.name : user.displayName} />
                                             </div>
                                             {/* User Email  */}
                                             <div className="md:col-span-5">

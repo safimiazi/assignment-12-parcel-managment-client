@@ -2,15 +2,35 @@ import { BsGithub, BsGoogle } from "react-icons/bs";
 import useAuth from "../../Hooks/useAuth";
 import { toast } from "react-toastify";
 import { useState } from "react";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
 const SocialLogin = () => {
-    const { signInWithGoogle, signInWithGithub, } = useAuth()
+    const {user, signInWithGoogle, signInWithGithub, } = useAuth()
     const [errorMessage, setError] = useState('')
-
+    const axiosPublic = useAxiosPublic()
+console.log("user line 10", user);
     const handleSignInWithGoogle = () => {
+
+
+
+
         signInWithGoogle()
         .then(result => {
             console.log(result.user);
+            const userInfo = {
+                name: result.user?.displayName,
+                email:result.user?.email,
+                photo:result.user?.photoURL,
+                userId : Math.floor(10000000 + Math.random() * 90000000)
+            }
+            
+            axiosPublic.post('/post-google-info', userInfo)
+            .then(res => {
+                console.log(res.data);
+            })
+            .catch(error => {
+                console.log(error.message);
+            })
             toast.success("successfully Google Login")
         })
         .catch(error => {

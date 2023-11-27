@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 const AllParcels = () => {
-    const axiosPublic = useAxiosPublic()
+    const axiosSecure = useAxiosSecure()
     const [trueModal, setTrueModal] = useState(false)
     const [id, setId] = useState([])
     const [deliveryData, setDeliveryData] = useState([])
@@ -13,7 +13,7 @@ const AllParcels = () => {
     const { isPending, error, data, refetch } = useQuery({
         queryKey: ['all parcels'],
         queryFn: async () => {
-            const res = await axiosPublic.get('/get-all-parcel')
+            const res = await axiosSecure.get('/get-all-parcel')
             return res.data;
         }
 
@@ -25,7 +25,7 @@ const AllParcels = () => {
         setId(id)
         setTrueModal(true)
 
-axiosPublic.get('/get-all-delivery-man')
+axiosSecure.get('/get-all-delivery-man')
 .then(res => {
     console.log(res.data);
     setDeliveryData(res.data)
@@ -53,7 +53,7 @@ axiosPublic.get('/get-all-delivery-man')
         status: "on the way"
        }
        
-       axiosPublic.patch(`/select-delivery-man/${id}`, modalData)
+       axiosSecure.patch(`/select-delivery-man/${id}`, modalData)
        .then(res => {
         console.log(res.data);
         refetch()
@@ -88,7 +88,7 @@ axiosPublic.get('/get-all-delivery-man')
                         <select name="option" className="select select-bordered">
                             <option disabled selected>Pick one delivery man</option>
                             {
-                                deliveryData.map(singleDeliveryData => <option  value={singleDeliveryData._id}>{singleDeliveryData.name}</option>)
+                                deliveryData.map(singleDeliveryData => <option  value={singleDeliveryData?.email}>{singleDeliveryData.name}</option>)
                             }
                         </select>
 

@@ -1,12 +1,18 @@
 import Lottie from "lottie-react";
 import loginAnimation from "../../assets/login.json"
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import SocialLogin from "../../Components/SocialLogin/SocialLogin";
 const Login = () => {
+    const navigate = useNavigate()
+    const location = useLocation()
     const {signInUser} = useAuth()
 const [errorMessage, setError] = useState('')
+
+const from = location.state?.from?.pathname || "/"
+
     const handleLogin = (e) => {
         e.preventDefault()
         const form = e.target;
@@ -16,6 +22,7 @@ const [errorMessage, setError] = useState('')
         .then(result => {
             console.log(result.user);
             toast.success('login successfully')
+            navigate(from, {replace: true});
         })
         .catch(error => {
             console.log(error.message);
@@ -53,7 +60,9 @@ const [errorMessage, setError] = useState('')
                         </form>
                         <div className="pl-10">
                             <p>new user? please <Link className="text-indigo-700" to="/register">register</Link></p>
+                        <SocialLogin></SocialLogin>
                         </div>
+                        
                     </div>
                 </div>
             </div>

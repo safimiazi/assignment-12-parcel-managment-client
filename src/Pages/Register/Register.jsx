@@ -5,10 +5,12 @@ import useAuth from '../../Hooks/useAuth';
 import { toast } from 'react-toastify';
 import SocialLogin from '../../Components/SocialLogin/SocialLogin';
 import useAxiosPublic from '../../Hooks/useAxiosPublic';
+import { useNavigate } from 'react-router-dom';
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`
 const Register = () => {
+    const navigate = useNavigate()
     const axiosPublic = useAxiosPublic()
     const [selectedValue, setSelectedValue] = useState('')
     const { createUser, userUpdate } = useAuth()
@@ -91,7 +93,9 @@ console.log(userInfo);
                         userUpdate(name, photoFile)
                         .then(result => {
                             console.log(result?.user);
+
                             toast.success("successfully registered")
+                            navigate("/")
                             
                         })
                         .catch(error => {

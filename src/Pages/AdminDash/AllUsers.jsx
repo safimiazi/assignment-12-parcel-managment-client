@@ -1,16 +1,17 @@
 import React from 'react';
-import useAxiosPublic from '../../Hooks/useAxiosPublic';
 import { useQuery } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
+import useAxiosSecure from '../../Hooks/useAxiosSecure';
 
 const AllUsers = () => {
 
-    const axiosPublic = useAxiosPublic()
+    const axiosSecure = useAxiosSecure()
+
 
     const { data: users = [], refetch } = useQuery({
         queryKey: ['users'],
         queryFn: async () => {
-            const res = await axiosPublic.get('/get-all-users');
+            const res = await axiosSecure.get('/get-all-users');
             return res.data;
         }
     })
@@ -19,7 +20,7 @@ const AllUsers = () => {
 
 
     const handleDeliveryMan = id => {
-        axiosPublic.patch(`/make-delivery-man/${id}`)
+        axiosSecure.patch(`/make-delivery-man/${id}`)
         .then(res => {
             console.log(res.data);
             if(res.data.modifiedCount){
@@ -34,7 +35,7 @@ const AllUsers = () => {
 
     const handleAdmin = id => {
         console.log(id);
-        axiosPublic.patch(`/make-admin/${id}`)
+        axiosSecure.patch(`/make-admin/${id}`)
         .then(res => {
             console.log(res.data);
             if(res.data.modifiedCount){

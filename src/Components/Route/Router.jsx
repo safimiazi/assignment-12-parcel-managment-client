@@ -14,6 +14,7 @@ import AllParcels from "../../Pages/AdminDash/AllParcels";
 import AllUsers from "../../Pages/AdminDash/AllUsers";
 import MyDeliveryList from "../../Pages/DeliveryManDash/MyDeliveryList";
 import MyReviews from "../../Pages/DeliveryManDash/MyReviews";
+import PrivateRoute from "./PrivateRoute";
 const router = createBrowserRouter([
     {
       path: "/",
@@ -35,7 +36,7 @@ const router = createBrowserRouter([
     },
     {
       path: "/dashboard",
-      element: <Dashboard></Dashboard>,
+      element: <PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
       children: [
         //user route
         {

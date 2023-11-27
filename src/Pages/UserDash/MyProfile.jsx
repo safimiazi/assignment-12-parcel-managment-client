@@ -7,25 +7,29 @@ const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`
 const MyProfile = () => {
     const { user, userUpdate } = useAuth()
-    const [data, setData] = useState([])
+    // const [data, setData] = useState([])
 
     const axiosPublic = useAxiosPublic()
     const [selectedFile, setSelectedFile] = useState(null);
 
-    console.log(user);
+   
 
 
 
-    const { isPending, error, refetch} = useQuery({
+    const { isPending, data, error, refetch} = useQuery({
         queryKey: ['image'],
         queryFn: async()=>{
             const res = await axiosPublic.get('/get-user')
-            setData(res.data)
+            
+            return res.data
         }
     })
 
 
-    const filterData = data.find(item=> item.email === user?.email)
+    const filterData = data?.find(item=> item?.email === user?.email)
+
+
+
 
     const handleFileChange = (e) => {
         setSelectedFile(e.target.files[0]);
@@ -52,15 +56,17 @@ const MyProfile = () => {
           if (response.ok) {
             const result = await response.json();
             console.log('Image uploaded successfully:', result.data);
-            const photoFile  = result.data.display_url
+            const photoFile  = result?.data?.display_url;
+           
             const updatedImage = {
-                photo: result.data.display_url
+                photo: result.data?.display_url
             }
             if(result.data){
                
                 axiosPublic.patch(`/update-user-photo/${filterData._id}`, updatedImage )
                 .then(res => {
                     console.log(res.data);
+                    
                     if(res.data.modifiedCount){
                        
                         userUpdate(name, photoFile)
@@ -140,19 +146,19 @@ const MyProfile = () => {
                                                 </div>
                                                 <div className="mt-4">
                                                     <div className="px-4 py-2 font-semibold">Gender</div>
-                                                    <div className="px-4 py-2">{data.gender ? data.gender : 'N/A'}</div>
+                                                    <div className="px-4 py-2">{data?.gender ? data?.gender : 'N/A'}</div>
                                                 </div>
                                                 <div className="mt-4">
                                                     <div className="px-4 py-2 font-semibold">Contact No.</div>
-                                                    <div className="px-4 py-2">{data.contactNumber ? data.contactNumber : 'N/A'}</div>
+                                                    <div className="px-4 py-2">{data?.contactNumber ? data?.contactNumber : 'N/A'}</div>
                                                 </div>
                                                 <div className="mt-4">
                                                     <div className="px-4 py-2 font-semibold">Current Address</div>
-                                                    <div className="px-4 py-2">{data.currentAddress ? data.currentAddress : 'N/A'}</div>
+                                                    <div className="px-4 py-2">{data?.currentAddress ? data?.currentAddress : 'N/A'}</div>
                                                 </div>
                                                 <div className="mt-4">
                                                     <div className="px-4 py-2 font-semibold">Permanent Address</div>
-                                                    <div className="px-4 py-2">{data.permanentAddress ? data.permanentAddress : 'N/A'}</div>
+                                                    <div className="px-4 py-2">{data?.permanentAddress ? data?.permanentAddress : 'N/A'}</div>
                                                 </div>
                                             </div>
                                             {/* <button onClick={() => setHideForm(!hideForm)}
