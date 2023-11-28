@@ -7,7 +7,7 @@ import usedDeliveryMan from '../../Hooks/usedeliveryMan';
 const Dashboard = () => {
     const [isAdmin] = useAdmin()
     const [isDeliveryMan] = usedDeliveryMan()
-   
+
     return (
         <div className='flex'>
             <div className='w-64 min-h-screen nav-footer'>

@@ -82,6 +82,9 @@ const handleDeliver = id => {
             .catch(error => {
                 console.log(error.message);
             })
+           
+
+
 
        
         }
@@ -140,17 +143,22 @@ const handleDeliver = id => {
                             <td className="p-3 ">
                                 <span className=" py-1 font-semibold rounded-md dark:bg-violet-400 dark:text-gray-900">
                                     <span className="font-bold text-red-700">
-                                    <button className=" btn btn-color hover:bg-amber-600"><FaLocationPinLock className='text-xl'></FaLocationPinLock></button>
+                                    <button className=" py-1 px-2 btn-color hover:bg-amber-600"><FaLocationPinLock className='text-xl'></FaLocationPinLock></button>
                                     </span>
                                 </span>
                             </td>
                             <td className="p-3 ">
                                 <span className=" py-1 font-semibold rounded-md dark:bg-violet-400 dark:text-gray-900">
-                                <button onClick={()=> handleCancel(singleData?._id)} className="btn bg-red-500 hover:bg-red-700">cancel</button>                                </span>
+                                <button onClick={()=> handleCancel(singleData?._id)} className="py-1 px-2 bg-red-500 hover:bg-red-700">cancel</button> </span>
                             </td>
                             <td className="p-3 ">
-                                <span className=" py-1 font-semibold rounded-md dark:bg-violet-400 dark:text-gray-900">
-                                <button onClick={()=> handleDeliver(singleData?._id)} className="btn bg-green-500 hover:bg-green-700">Deliver</button>                                </span>
+                            <span className=" py-1 font-semibold rounded-md dark:bg-violet-400 dark:text-gray-900">
+{
+    singleData.status === "delivered" ? <button disabled className="py-1 px-2 bg-green-100 ">Deliver</button> :                                 <button onClick={()=> handleDeliver(singleData?._id)} className="py-1 px-2 bg-green-500 hover:bg-green-700">Deliver</button> 
+
+
+}
+                            </span>
                             </td>
                         </tr>)
                     }
