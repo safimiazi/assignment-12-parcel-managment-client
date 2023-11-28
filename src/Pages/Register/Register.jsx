@@ -5,7 +5,7 @@ import useAuth from '../../Hooks/useAuth';
 import { toast } from 'react-toastify';
 import SocialLogin from '../../Components/SocialLogin/SocialLogin';
 import useAxiosPublic from '../../Hooks/useAxiosPublic';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`
@@ -185,6 +185,7 @@ console.log(userInfo);
                         </form>
                         <div className='md:pl-14 pl-2'>
                             <SocialLogin></SocialLogin>
+                            <p>already register? please <Link to="/login"><span className='text-indigo-800 underline'>login</span></Link></p>
                         </div>
                     </div>
                 </div>
