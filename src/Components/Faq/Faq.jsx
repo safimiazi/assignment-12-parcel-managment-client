@@ -23,19 +23,18 @@ const Faq = () => {
             <div className="collapse collapse-arrow bg-base-200 card-color text-white">
                 <input type="radio" name="my-accordion-2" />
                 <div className="collapse-title text-xl font-medium">
-                    Click to open this one and close others
-                </div>
+                How can I track the current location of my parcel in the delivery process?                </div>
                 <div className="collapse-content">
-                    <p>hello</p>
+                    <p>To track your parcel, use the provided tracking number on our website. This number is unique to your shipment and allows you to monitor the real-time status, including sorting, transit, and estimated delivery time.</p>
                 </div>
             </div>
-            <div className="collapse collapse-arrow bg-base-200 card-color text-white">
+            <div className="collapse collapse-arrow bg-base-200 mb-32 card-color text-white">
                 <input type="radio" name="my-accordion-2" />
                 <div className="collapse-title text-xl font-medium">
-                    Click to open this one and close others
+                What security measures are in place to protect parcels during transportation and storage?
                 </div>
                 <div className="collapse-content">
-                    <p>hello</p>
+                    <p>We prioritize the security of your parcels. Our facilities employ surveillance systems, secure storage protocols, and tamper-evident packaging to safeguard shipments. Additionally, our tracking system enhances transparency, allowing you to monitor the journey of your parcel until it reaches its destination.</p>
                 </div>
             </div>
         </div>
